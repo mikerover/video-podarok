@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Заказать видео поздравление | С Днем Рождения, на Юбилей и Свадьбу</title>
+    <meta name="description" content="Здесь вы можете заказать видео поздравление из фотографий, слайд-шоу, поздравление в стиле выпуска новостей или видео на юбилей. Создаем яркие эмоции!">
+    <meta name="keywords" content="заказать видео поздравление, заказать видео поздравление с днем, заказать видео поздравление с днем рождения, заказать видео слайд шоу поздравления из фото, видео поздравление на юбилей заказать, заказать видео поздравление из фотографий, заказать видео поздравление на свадьбу, где заказать видео поздравление, заказать видео поздравление от звезды, видео поздравление из африки заказать, видео поздравление от знаменитостей заказать, видео поздравление в стиле выпуска новостей заказать, видео поздравление с днем рождения девушке заказать, видео на юбилей заказать, заказать видео открытку, видео поздравление на юбилей заказать">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0d0d12;
+            --surface: #1a1a24;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-1: #ff2a5f;
+            --accent-2: #ff7e40;
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --festive-gradient: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -20%; left: -10%;
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(255, 42, 95, 0.15) 0%, rgba(13, 13, 18, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -20%; right: -10%;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(255, 126, 64, 0.1) 0%, rgba(13, 13, 18, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .text-gradient {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .service-card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-1);
+        }
+
+        .cta-btn {
+            background: var(--gradient);
+            box-shadow: 0 10px 30px rgba(255, 42, 95, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 42, 95, 0.5);
+        }
+
+        .festive-footer {
+            background: var(--festive-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .festive-footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        
+        .festive-footer > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .modal-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        
+        .floating-logo {
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 10px 15px rgba(255, 42, 95, 0.4));
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-pink-500 selection:text-white">
+
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <header class="fixed w-full top-0 left-0 p-5 bg-[#0d0d12e6] backdrop-blur-md z-50 border-b border-white/5 flex justify-between items-center">
+        <a href="#" class="flex items-center gap-3 text-2xl font-extrabold tracking-wide text-white decoration-none">
+            <!-- Логотип в шапке -->
+            <img src="photo_2026-10-02_17-38-34.jpg" alt="Логотип" class="w-10 h-10 object-contain">
+            <span>Видео<span class="text-gradient">Подарок</span></span>
+        </a>
+        <button class="bg-white/10 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition hover:bg-white/20" onclick="openModal()">Связаться</button>
+    </header>
+
+    <main>
+        <section class="min-h-screen flex flex-col justify-center items-center text-center px-5 pt-32 pb-16 max-w-4xl mx-auto relative">
+            
+            <!-- Большой парящий логотип для компьютеров (слева) -->
+            <img src="photo_2026-10-02_17-38-34.jpg" alt="Праздничный логотип" class="floating-logo w-48 h-48 md:w-56 md:h-56 object-contain drop-shadow-[0_0_30px_rgba(255,42,95,0.6)] mb-8 md:absolute md:left-[-150px] md:top-1/4 md:mb-0 z-10 hidden md:block">
+            
+            <!-- Меньший парящий логотип для мобильных телефонов (по центру) -->
+            <img src="photo_2026-10-02_17-38-34.jpg" alt="Праздничный логотип" class="floating-logo w-32 h-32 object-contain drop-shadow-[0_0_15px_rgba(255,42,95,0.5)] mb-8 md:hidden z-10">
+
+            <div class="bg-[#ff7e4026] text-[#ff7e40] px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-[#ff7e404d] z-20">
+                🎁 Эмоции, которые останутся навсегда
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg z-20">
+                Удивите близких <br>
+                <span class="text-gradient drop-shadow-[0_0_15px_rgba(255,42,95,0.5)]">видео поздравлением</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto z-20 drop-shadow-md">
+                Я создаю индивидуальные видео-открытки, слайд-шоу из фотографий и креативные ролики для любого торжества. Подарите не просто вещь, а настоящие слезы радости и смех!
+            </p>
+
+            <button class="cta-btn text-white px-10 py-4 rounded-full font-bold text-lg md:text-xl z-20" onclick="openModal()">
+                ЗАКАЗАТЬ ВИДЕО
+            </button>
+        </section>
+
+        <section class="max-w-6xl mx-auto px-5 pb-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">🎂</div>
+                <h3 class="text-xl font-bold text-white mb-3">С Днем Рождения</h3>
+                <p class="text-slate-400 text-sm mb-5">Душевное или веселое видео для именинника. Соберем лучшие моменты, добавим любимую музыку и теплые слова.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">С днем рождения</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Девушке</span>
+                </div>
+            </div>
+
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">🥂</div>
+                <h3 class="text-xl font-bold text-white mb-3">На Юбилей</h3>
+                <p class="text-slate-400 text-sm mb-5">Трогательный фильм-биография для круглой даты. Покажем жизненный путь, достижения и поздравления от всей семьи.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">На юбилей</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Памятное видео</span>
+                </div>
+            </div>
+
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">📸</div>
+                <h3 class="text-xl font-bold text-white mb-3">Слайд-шоу из фото</h3>
+                <p class="text-slate-400 text-sm mb-5">Оживим ваши архивы. Красивые переходы, эффекты параллакса и идеальная синхронизация с музыкой.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Слайд-шоу</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Из фотографий</span>
+                </div>
+            </div>
+
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">💍</div>
+                <h3 class="text-xl font-bold text-white mb-3">На свадьбу</h3>
+                <p class="text-slate-400 text-sm mb-5">Незабываемый подарок молодоженам. Романтическая история знакомства или веселые пожелания от всех друзей.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">На свадьбу</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Love Story</span>
+                </div>
+            </div>
+
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">⭐</div>
+                <h3 class="text-xl font-bold text-white mb-3">Звезды и Африка</h3>
+                <p class="text-slate-400 text-sm mb-5">Хотите удивить? Организуем горячее видеопоздравление из Африки или заставим знаменитость "поздравить" вашего друга.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">От звезды</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Из Африки</span>
+                </div>
+            </div>
+
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">📺</div>
+                <h3 class="text-xl font-bold text-white mb-3">Выпуск новостей</h3>
+                <p class="text-slate-400 text-sm mb-5">Экстренное включение! Ведущий новостей сообщит всей стране о празднике вашего близкого человека. Отличный юмор.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Стиль новостей</span>
+                </div>
+            </div>
+
+            <div class="service-card rounded-2xl p-8 relative overflow-hidden md:col-span-2 lg:col-span-3">
+                <div class="text-5xl mb-5">📱</div>
+                <h3 class="text-xl font-bold text-white mb-3">Видео-открытка</h3>
+                <p class="text-slate-400 text-sm mb-5 max-w-3xl">Яркое, динамичное видео для быстрой отправки в мессенджеры (WhatsApp, Telegram, MAX). Идеально подходит для любого повода, когда нужно передать максимум эмоций на расстоянии.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Видео открытка</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Для MAX</span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="max-w-5xl mx-auto px-5 pb-24 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-16">Как это работает?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="relative">
+                    <div class="w-16 h-16 mx-auto bg-[#1a1a24] border-2 border-[#ff7e40] text-white text-2xl font-extrabold rounded-full flex items-center justify-center mb-5">1</div>
+                    <h3 class="text-xl font-bold mb-2">Обсуждаем идею</h3>
+                    <p class="text-slate-400 text-sm">Я связываюсь с вами в удобном мессенджере. Вы рассказываете о поводе, мы вместе выбираем формат и стиль ролика.</p>
+                </div>
+                <div class="relative">
+                    <div class="w-16 h-16 mx-auto bg-[#1a1a24] border-2 border-[#ff7e40] text-white text-2xl font-extrabold rounded-full flex items-center justify-center mb-5">2</div>
+                    <h3 class="text-xl font-bold mb-2">Материалы</h3>
+                    <p class="text-slate-400 text-sm">Вы присылаете мне фотографии, домашние видео и ваши пожелания по тексту.</p>
+                </div>
+                <div class="relative">
+                    <div class="w-16 h-16 mx-auto bg-[#1a1a24] border-2 border-[#ff7e40] text-white text-2xl font-extrabold rounded-full flex items-center justify-center mb-5">3</div>
+                    <h3 class="text-xl font-bold mb-2">Монтаж и Готовность</h3>
+                    <p class="text-slate-400 text-sm">Я создаю магию, согласовываю с вами детали и отдаю готовый шедевр точно в срок!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-[#111118] py-16 px-5 border-t border-white/5">
+            <div class="max-w-4xl mx-auto text-slate-400 text-sm leading-relaxed text-justify space-y-4">
+                <h2 class="text-xl font-bold text-slate-300 mb-4">Индивидуальные видео для ваших близких</h2>
+                <p>Если вы ищете оригинальный способ подарить эмоции, лучший выбор — это <strong>заказать видео поздравление</strong>. В эпоху цифровых технологий живой, динамичный ролик вызывает гораздо больше искренней радости, чем обычная открытка или текстовое сообщение.</p>
+                
+                <p>Вы можете <strong>заказать видео поздравление с днем</strong> торжества заранее, чтобы я успел подготовить лучший сюрприз. Чаще всего клиенты хотят <strong>заказать видео поздравление с днем рождения</strong>. Я предлагаю различные подходы: если вы ищете романтичный вариант, можно <strong>видео поздравление с днем рождения девушке заказать</strong> с красивой музыкой и нежными эффектами.</p>
+
+                <h3 class="text-lg font-semibold text-slate-300 mt-6 mb-3">Популярные форматы</h3>
+                <p>Для душевных семейных мероприятий отличной идеей будет <strong>заказать видео слайд шоу поздравления из фото</strong>. Если приближается важная круглая дата, настоятельно рекомендую <strong>видео поздравление на юбилей заказать</strong> из ваших семейных архивов (я также помогу просто <strong>видео на юбилей заказать</strong> с добавлением титров и красивых переходов). Вы можете просто <strong>заказать видео поздравление из фотографий</strong>, и я превращу их в полноценный фильм. А для молодоженов отличным решением станет возможность <strong>заказать видео поздравление на свадьбу</strong>.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-300 mt-6 mb-3">Нестандартные и веселые решения</h3>
+                <p>Не знаете, <strong>где заказать видео поздравление</strong> с юмором? Я предлагаю необычные форматы: вы можете <strong>заказать видео открытку</strong> для быстрой отправки в MAX или WhatsApp, или, например, <strong>заказать видео поздравление от звезды</strong> с помощью современных технологий монтажа. Огромной популярностью пользуется услуга <strong>видео поздравление из африки заказать</strong>, где зажигательные танцоры поздравляют именинника по имени. Также я помогу <strong>видео поздравление от знаменитостей заказать</strong> (пародии) и даже <strong>видео поздравление в стиле выпуска новостей заказать</strong>, чтобы удивить всех гостей на празднике!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="festive-footer text-center py-12 px-5">
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-4 drop-shadow-md">Готовы создать праздник? 🎉</h2>
+        <p class="text-white/90 text-lg mb-8 max-w-lg mx-auto drop-shadow-sm">Свяжитесь со мной, и мы придумаем идеальный сценарий для вашего видео.</p>
+        <button class="bg-white text-indigo-600 px-8 py-3 rounded-full font-bold text-lg hover:scale-105 transition shadow-lg mb-8" onclick="openModal()">Обсудить идею</button>
+        <p class="text-white/60 text-sm mt-8">&copy; 2026 Студия Видеопоздравлений. Дарим эмоции в каждом кадре.</p>
+    </footer>
+
+    <div id="contact-modal" class="modal-overlay fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[1000]">
+        <div class="modal-content bg-slate-900 border border-white/10 p-8 rounded-3xl w-11/12 max-w-sm text-center relative shadow-2xl">
+            <button class="absolute top-4 right-5 text-slate-400 hover:text-white text-2xl" onclick="closeModal()">✕</button>
+            <h3 class="text-2xl font-bold text-white mb-2">Написать мне</h3>
+            <p class="text-slate-400 text-sm mb-6">Выберите удобный мессенджер для связи</p>
+            
+            <a href="https://wa.me/79174489817" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white font-bold py-3 px-4 rounded-xl mb-4 hover:-translate-y-1 transition">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                WhatsApp
+            </a>
+            
+            <a href="tg://resolve?domain=mikerover" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#2AABEE] text-white font-bold py-3 px-4 rounded-xl hover:-translate-y-1 transition">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.96 1.25-5.54 3.67-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.2-1.83 7-3.04 8.41-3.63 4-.1 4.83.67 4.9 1.05z"/></svg>
+                Telegram
+            </a>
+            
+            <a href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#8B5CF6] text-white font-bold py-3 px-4 rounded-xl mt-4 hover:-translate-y-1 transition">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c5.5 0 10 4 10 9s-4.5 9-10 9c-1.4 0-2.8-.3-4.1-.7L3 21l1.5-4.5C3.6 15.1 3 13.6 3 12c0-5 4.5-9 9-9zm0 2c-4.4 0-8 3.1-8 7 0 1.5.5 2.9 1.5 4.1.2.3.2.7.1 1.1l-.8 2.3 2.5-1.1c.3-.1.7-.1 1.1.1 1.1.5 2.3.8 3.6.8 4.4 0 8-3.1 8-7s-3.6-7-8-7z"/></svg>
+                MAX
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('contact-modal');
+
+        function openModal() {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
