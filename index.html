@@ -747,6 +747,22 @@
                     </div>
                 </div>
 
+                <!-- Видео 10 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video10.mp4', 'Веселое поздравление с Днем Рождения')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video10.mp4#t=0.5" poster="videos/poster10.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Веселое поздравление с Днем Рождения</h3>
+                        <p class="text-slate-400 text-sm">Задорный ролик с тортом, фейерверком и хорошим настроением.</p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
