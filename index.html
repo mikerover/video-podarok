@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -604,9 +604,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <!-- Видео 1 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video1.mp4', 'Веселое поздравление с Днем Рождения')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video1.mp4', 'Веселое поздравление с Днем Рождения', 'videos/poster1.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video1.mp4#t=0.5" poster="videos/poster1.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster1.jpg" preload="none" muted loop playsinline data-src="videos/video1.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -620,9 +620,9 @@
                 </div>
 
                 <!-- Видео 2 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video2.mp4', 'Креативное поздравление в первобытном стиле')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video2.mp4', 'Креативное поздравление в первобытном стиле', 'videos/poster2.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video2.mp4#t=0.5" poster="videos/poster2.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster2.jpg" preload="none" muted loop playsinline data-src="videos/video2.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -636,9 +636,9 @@
                 </div>
 
                 <!-- Видео 3 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video3.mp4', 'Новогоднее поздравление партнёрам')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video3.mp4', 'Новогоднее поздравление партнёрам', 'videos/poster3.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video3.mp4#t=0.5" poster="videos/poster3.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster3.jpg" preload="none" muted loop playsinline data-src="videos/video3.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -652,9 +652,9 @@
                 </div>
 
                 <!-- Видео 4 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video4.mp4', 'Мультяшное 3D-поздравление')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video4.mp4', 'Мультяшное 3D-поздравление', 'videos/poster4.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video4.mp4#t=0.5" poster="videos/poster4.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster4.jpg" preload="none" muted loop playsinline data-src="videos/video4.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -668,9 +668,9 @@
                 </div>
 
                 <!-- Видео 5 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video5.mp4', 'Новогоднее поздравление ребёнку')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video5.mp4', 'Новогоднее поздравление ребёнку', 'videos/poster5.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video5.mp4#t=0.5" poster="videos/poster5.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster5.jpg" preload="none" muted loop playsinline data-src="videos/video5.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -684,9 +684,9 @@
                 </div>
 
                 <!-- Видео 6 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video6.mp4', 'Стилизованное музыкальное персональное поздравление')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video6.mp4', 'Стилизованное музыкальное персональное поздравление', 'videos/poster6.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video6.mp4#t=0.5" poster="videos/poster6.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster6.jpg" preload="none" muted loop playsinline data-src="videos/video6.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -700,9 +700,9 @@
                 </div>
 
                 <!-- Видео 7 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video7.mp4', 'Поздравление с сюрпризом: спорткар и торт')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video7.mp4', 'Поздравление с сюрпризом: спорткар и торт', 'videos/poster7.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video7.mp4#t=0.5" poster="videos/poster7.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster7.jpg" preload="none" muted loop playsinline data-src="videos/video7.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -716,9 +716,9 @@
                 </div>
 
                 <!-- Видео 8 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video8.mp4', 'Новогоднее обращение Деда Мороза к ребенку')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video8.mp4', 'Новогоднее обращение Деда Мороза к ребенку', 'videos/poster8.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video8.mp4#t=0.5" poster="videos/poster8.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster8.jpg" preload="none" muted loop playsinline data-src="videos/video8.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -732,9 +732,9 @@
                 </div>
 
                 <!-- Видео 9 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video9.mp4', 'Новогоднее поздравление от Деда Мороза детям')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video9.mp4', 'Новогоднее поздравление от Деда Мороза детям', 'videos/poster9.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video9.mp4#t=0.5" poster="videos/poster9.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster9.jpg" preload="none" muted loop playsinline data-src="videos/video9.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -748,9 +748,9 @@
                 </div>
 
                 <!-- Видео 10 -->
-                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video10.mp4', 'Поздравление с днём рождения, стилизованное под профессиональную деятельность, с именинником в главной роли')">
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video10.mp4', 'Поздравление с днём рождения, стилизованное под профессиональную деятельность, с именинником в главной роли', 'videos/poster10.jpg')">
                     <div class="relative aspect-video bg-[#111118] overflow-hidden">
-                        <video src="videos/video10.mp4#t=0.5" poster="videos/poster10.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <video poster="videos/poster10.jpg" preload="none" muted loop playsinline data-src="videos/video10.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
                         <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
                             <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
                                 <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -852,7 +852,11 @@
                 </button>
             </div>
             <div class="relative bg-black flex-1 min-h-0 w-full flex items-center justify-center sm:aspect-video sm:flex-none">
-                <video id="portfolio-modal-player" controls playsinline webkit-playsinline preload="metadata" class="w-full h-full object-contain"></video>
+                <video id="portfolio-modal-player" controls playsinline webkit-playsinline preload="auto" class="w-full h-full object-contain"></video>
+                <div id="video-loader" class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-black/70 pointer-events-none" style="display: none;">
+                    <div class="w-12 h-12 border-4 border-white/25 border-t-white rounded-full animate-spin"></div>
+                    <div class="text-slate-200 text-sm">Загрузка видео…</div>
+                </div>
                 <button id="video-unmute-btn" type="button" onclick="unmuteVideo()" aria-label="Включить звук"
                     class="absolute inset-0 z-10 flex-col items-center justify-center gap-3 bg-black/60 text-white font-bold text-base sm:text-lg px-6 text-center"
                     style="display: none;">
@@ -881,6 +885,33 @@
             document.body.style.overflow = 'auto'; 
         }
 
+        // Превью-плитки: источник подставляется только при наведении/касании,
+        // чтобы при открытии страницы 10 роликов не грузили видео и не «съедали» канал
+        function playPreview(v) {
+            try {
+                if (!v.getAttribute('src') && v.dataset.src) v.setAttribute('src', v.dataset.src);
+                const p = v.play();
+                if (p && typeof p.catch === 'function') p.catch(() => {});
+            } catch (err) {}
+        }
+
+        function pausePreview(v) {
+            try {
+                v.pause();
+                if (v.readyState >= 1 && v.currentTime > 0.55) v.currentTime = 0.5;
+            } catch (err) {}
+        }
+
+        function showVideoLoader() {
+            const el = document.getElementById('video-loader');
+            if (el) el.style.display = 'flex';
+        }
+
+        function hideVideoLoader() {
+            const el = document.getElementById('video-loader');
+            if (el) el.style.display = 'none';
+        }
+
         function showVideoUnmute() {
             const btn = document.getElementById('video-unmute-btn');
             if (btn) btn.style.display = 'flex';
@@ -901,7 +932,9 @@
             hideVideoUnmute();
         }
 
-        function openVideoModal(videoSrc, titleText) {
+        let modalVideoSrc = '';
+
+        function openVideoModal(videoSrc, titleText, posterSrc) {
             if (!videoModal || !portfolioPlayer) return;
             videoModalTitle.textContent = titleText || 'Мои работы';
             // Останавливаем превью-ролики: на iPhone их «немой» звук мешает звуку большого видео
@@ -909,17 +942,26 @@
                 try { v.pause(); } catch (err) {}
             });
             hideVideoUnmute();
+            // Картинку показываем сразу, пока сам ролик подгружается
+            if (posterSrc) portfolioPlayer.setAttribute('poster', posterSrc);
             // Явно включаем звук (iPhone по умолчанию блокирует звук при автозапуске)
             portfolioPlayer.muted = false;
             portfolioPlayer.defaultMuted = false;
             portfolioPlayer.volume = 1;
             portfolioPlayer.setAttribute('playsinline', '');
-            portfolioPlayer.src = videoSrc;
             videoModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            if (modalVideoSrc !== videoSrc) {
+                modalVideoSrc = videoSrc;
+                portfolioPlayer.preload = 'auto';
+                portfolioPlayer.src = videoSrc;
+                try { portfolioPlayer.load(); } catch (err) {}
+            }
+            if (portfolioPlayer.readyState < 3) showVideoLoader();
             const p = portfolioPlayer.play();
             if (p && typeof p.then === 'function') {
                 p.then(() => {
+                    hideVideoLoader();
                     // Если браузер всё же стартовал без звука — предложим включить вручную
                     setTimeout(() => {
                         if (portfolioPlayer && portfolioPlayer.muted) showVideoUnmute();
@@ -927,9 +969,21 @@
                 }).catch(() => {
                     // Автовоспроизведение со звуком запрещено (iPhone / встроенный браузер):
                     // показываем кнопку, тап по которой запустит видео со звуком
+                    hideVideoLoader();
                     showVideoUnmute();
                 });
             }
+        }
+
+        if (portfolioPlayer) {
+            // Индикатор загрузки: скрываем, как только пошло воспроизведение
+            portfolioPlayer.addEventListener('playing', hideVideoLoader);
+            portfolioPlayer.addEventListener('canplay', () => {
+                if (!portfolioPlayer.paused) hideVideoLoader();
+            });
+            portfolioPlayer.addEventListener('waiting', () => {
+                if (!portfolioPlayer.paused) showVideoLoader();
+            });
         }
 
         function exitAnyFullscreen() {
@@ -946,9 +1000,12 @@
             if (!videoModal || !portfolioPlayer) return;
             exitAnyFullscreen();
             hideVideoUnmute();
+            hideVideoLoader();
             portfolioPlayer.pause();
             portfolioPlayer.removeAttribute('src');
-            portfolioPlayer.load();
+            portfolioPlayer.removeAttribute('poster');
+            try { portfolioPlayer.load(); } catch (err) {}
+            modalVideoSrc = '';
             videoModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
