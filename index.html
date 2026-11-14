@@ -1,1 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Заказать видео поздравление | С Днем Рождения, на Юбилей и Свадьбу</title>
+    <meta name="description" content="Здесь вы можете заказать видео поздравление из фотографий, слайд-шоу, поздравление в стиле выпуска новостей или видео на юбилей. Создаем яркие эмоции!">
+    <meta name="keywords" content="заказать видео поздравление, заказать видео поздравление с днем, заказать видео поздравление с днем рождения, заказать видео слайд шоу поздравления из фото, видео поздравление на юбилей заказать, заказать видео поздравление из фотографий, заказать видео поздравление на свадьбу, где заказать видео поздравление, заказать видео поздравление от звезды, видео поздравление в стиле выпуска новостей заказать, видео поздравление с днем рождения девушке заказать, видео на юбилей заказать, заказать видео открытку, видео поздравление на юбилей заказать">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0d0d12;
+            --surface: #1a1a24;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-1: #ff2a5f;
+            --accent-2: #ff7e40;
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            --festive-gradient: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
+            --scroll-progress: 0%;
+        }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Верхний индикатор прогресса прокрутки */
+        .scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: var(--scroll-progress);
+            background: linear-gradient(90deg, #21d4fd, var(--accent-1), var(--accent-2));
+            box-shadow: 0 0 15px rgba(255, 42, 95, 0.85);
+            z-index: 9999;
+            transition: width 0.08s linear;
+            pointer-events: none;
+        }
+
+        /* Кинематографичный Canvas с частицами боке */
+        #ambient-particles {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        /* Динамическое свечение фона с реакцией на скролл и курсор */
+        .bg-glow {
+            position: fixed;
+            top: -20%; left: -10%;
+            width: 55vw; height: 55vw;
+            background: radial-gradient(circle, rgba(255, 42, 95, 0.18) 0%, rgba(33, 212, 253, 0.05) 45%, rgba(13, 13, 18, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            will-change: transform;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .bg-glow-2 {
+            position: fixed;
+            bottom: -20%; right: -10%;
+            width: 65vw; height: 65vw;
+            background: radial-gradient(circle, rgba(255, 126, 64, 0.14) 0%, rgba(183, 33, 255, 0.05) 45%, rgba(13, 13, 18, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            will-change: transform;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Переливающийся жидкий градиент текста */
+        @keyframes shimmerText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ff2a5f 0%, #ff7e40 35%, #ff2a5f 70%, #ffae42 100%);
+            background-size: 250% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerText 5s ease-in-out infinite;
+        }
+
+        /* Премиальные 3D-карточки с интерактивным Spotlight-свечением курсора */
+        .service-card {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+            --rotate-x: 0deg;
+            --rotate-y: 0deg;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) translateZ(0);
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.4s ease,
+                        box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        /* Внутренний прожектор (Spotlight), следующий за мышкой */
+        .service-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(
+                500px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 42, 95, 0.14),
+                rgba(255, 126, 64, 0.05) 40%,
+                transparent 80%
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Неоновая подсветка рамки карточки вокруг курсора */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: radial-gradient(
+                320px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 42, 95, 0.85),
+                rgba(255, 126, 64, 0.45) 50%,
+                transparent 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .service-card:hover::before,
+        .service-card:hover::after {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            border-color: rgba(255, 42, 95, 0.4);
+            box-shadow: 0 26px 55px -15px rgba(255, 42, 95, 0.28),
+                        0 0 25px rgba(255, 126, 64, 0.1);
+        }
+
+        .service-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 3D-левитация иконки внутри карточки */
+        .service-card .text-5xl {
+            display: inline-block;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
+            transform-origin: center bottom;
+        }
+
+        .service-card:hover .text-5xl {
+            transform: translateZ(35px) scale(1.24) rotate(8deg) translateY(-4px);
+            filter: drop-shadow(0 12px 18px rgba(255, 42, 95, 0.4));
+        }
+
+        /* Теги внутри карточек */
+        .service-card span.text-xs {
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .service-card:hover span.text-xs {
+            background-color: rgba(255, 42, 95, 0.16);
+            color: #fff;
+        }
+
+        /* Главная кнопка CTA с жидким бликом и магнитным откликом */
+        @keyframes ctaPulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(255, 42, 95, 0.35), 0 0 0 0 rgba(255, 42, 95, 0.45); }
+            50% { box-shadow: 0 16px 42px rgba(255, 42, 95, 0.55), 0 0 0 14px rgba(255, 42, 95, 0); }
+        }
+
+        @keyframes ctaShine {
+            0%, 60% { left: -80%; }
+            100% { left: 140%; }
+        }
+
+        .cta-btn {
+            background: var(--gradient);
+            box-shadow: 0 10px 30px rgba(255, 42, 95, 0.3);
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            animation: ctaPulse 3.2s infinite;
+            will-change: transform;
+        }
+
+        .cta-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -80%;
+            width: 48%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: rotate(25deg);
+            animation: ctaShine 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .cta-btn:hover {
+            box-shadow: 0 20px 50px rgba(255, 42, 95, 0.65);
+        }
+
+        /* Анимация праздничного футера */
+        .festive-footer {
+            background: var(--festive-gradient);
+            background-size: 200% 200%;
+            animation: shimmerText 8s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .festive-footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        
+        .festive-footer > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Модальное окно с пружинной 3D-физикой */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            transform: scale(0.9) translateY(15px);
+            opacity: 0;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        
+        /* Плавная 3D-левитация и переливающийся анимированный градиентный фон за смайликом в круге */
+        @keyframes floatMascot {
+            0% {
+                transform: translate3d(0px, var(--parallax-y, 0px), 0px) rotate(0deg) scale(1);
+                filter: drop-shadow(0 12px 28px rgba(15, 35, 110, 0.65)) drop-shadow(0 0 22px rgba(126, 34, 206, 0.45));
+            }
+            50% {
+                transform: translate3d(0px, calc(var(--parallax-y, 0px) - 15px), 15px) rotate(5deg) scale(1.04);
+                filter: drop-shadow(0 20px 36px rgba(126, 34, 206, 0.65)) drop-shadow(0 0 28px rgba(15, 35, 110, 0.55));
+            }
+            100% {
+                transform: translate3d(0px, var(--parallax-y, 0px), 0px) rotate(0deg) scale(1);
+                filter: drop-shadow(0 12px 28px rgba(15, 35, 110, 0.65)) drop-shadow(0 0 22px rgba(126, 34, 206, 0.45));
+            }
+        }
+
+        @keyframes mascotGradientCycle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .floating-logo {
+            --parallax-y: 0px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #0a195c, #7e22ce, #0a195c);
+            background-size: 250% 250%;
+            animation: floatMascot 4.5s ease-in-out infinite, mascotGradientCycle 6s ease-in-out infinite;
+            will-change: transform, filter, background-position;
+        }
+
+        /* Линия прогресса шагов 1 — 2 — 3, заполняющаяся при скролле */
+        .steps-grid {
+            position: relative;
+        }
+
+        /* Два точных сегмента линии (1 -> 2 и 2 -> 3), которые не заходят внутрь кругов */
+        .steps-connector-segment {
+            position: absolute;
+            top: 31px; /* Ровно по центру кругов высотой 64px (w-16 h-16) */
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Сегмент 1: строго от правого края круга 1 до левого края круга 2 */
+        .steps-connector-1 {
+            left: calc((100% - 5rem) / 6 + 40px);
+            width: calc((100% - 5rem) / 3 + 2.5rem - 80px);
+        }
+
+        /* Сегмент 2: строго от правого края круга 2 до левого края круга 3 */
+        .steps-connector-2 {
+            left: calc(50% + 40px);
+            width: calc((100% - 5rem) / 3 + 2.5rem - 80px);
+        }
+
+        .steps-connector-fill {
+            position: relative;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2), #21d4fd);
+            box-shadow: 0 0 14px rgba(255, 126, 64, 0.85);
+            border-radius: inherit;
+            transition: width 0.2s ease-out;
+        }
+
+        /* Бегущий световой импульс от 1 к 3 */
+        @keyframes energyStream {
+            0% { transform: translateX(-100%); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(250%); opacity: 0; }
+        }
+
+        .steps-connector-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 45%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+            animation: energyStream 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .steps-connector-2 .steps-connector-fill::after {
+            animation-delay: 1.2s;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { box-shadow: 0 0 0 6px var(--bg-color), 0 0 0 6px rgba(255, 126, 64, 0.45), 0 0 20px rgba(255, 42, 95, 0.25); }
+            50% { box-shadow: 0 0 0 6px var(--bg-color), 0 0 0 16px rgba(255, 126, 64, 0), 0 0 32px rgba(255, 126, 64, 0.55); }
+        }
+
+        .step-badge {
+            position: relative;
+            z-index: 20;
+            background-color: #1a1a24;
+            box-shadow: 0 0 0 6px var(--bg-color);
+            animation: ringPulse 3s infinite;
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background-color 0.35s ease,
+                        border-color 0.35s ease,
+                        box-shadow 0.35s ease;
+        }
+
+        .step-card:hover .step-badge,
+        .step-card.step-active .step-badge {
+            transform: scale(1.14);
+            border-color: var(--accent-1);
+            background-color: #251a2a;
+        }
+
+        /* Шапка с эффектом матового стекла при прокрутке */
+        @keyframes headerDrop {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        header {
+            animation: headerDrop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        background-color 0.35s ease,
+                        box-shadow 0.35s ease,
+                        border-color 0.35s ease;
+        }
+
+        header.header-scrolled {
+            padding-top: 0.85rem;
+            padding-bottom: 0.85rem;
+            background-color: rgba(13, 13, 18, 0.88);
+            border-bottom-color: rgba(255, 42, 95, 0.2);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        /* 
+         * Премиальная обратимая скролл-анимация (Scrollytelling):
+         * Срабатывает при каждой прокрутке страницы вверх и вниз с 3D-перспективой и мягким размытием
+         */
+        .anim-reveal {
+            opacity: 0;
+            transform: perspective(1000px) translate3d(0, 48px, -30px) rotateX(8deg) scale(0.94);
+            filter: blur(8px);
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform, filter;
+        }
+
+        .anim-reveal.visible {
+            opacity: 1;
+            transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0deg) scale(1);
+            filter: blur(0px);
+        }
+
+        /* Направление появления для нечетных/четных элементов при скролле */
+        .anim-reveal.from-left {
+            transform: perspective(1000px) translate3d(-40px, 35px, -20px) rotateY(6deg) scale(0.95);
+        }
+        .anim-reveal.from-right {
+            transform: perspective(1000px) translate3d(40px, 35px, -20px) rotateY(-6deg) scale(0.95);
+        }
+        .anim-reveal.from-left.visible,
+        .anim-reveal.from-right.visible {
+            transform: perspective(1000px) translate3d(0, 0, 0) rotateY(0deg) scale(1);
+        }
+
+        /* Плавающая бейдж-плашка в Hero */
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255, 126, 64, 0.15); }
+            50% { box-shadow: 0 0 28px rgba(255, 126, 64, 0.4); }
+        }
+
+        .hero-badge {
+            animation: badgeGlow 3.5s ease-in-out infinite;
+        }
+
+        /* Карточки портфолио (Мои работы) */
+        .portfolio-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s ease,
+                        box-shadow 0.4s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-1);
+            box-shadow: 0 20px 45px -15px rgba(255, 42, 95, 0.3);
+        }
+
+        .portfolio-card .play-badge {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+        }
+
+        .portfolio-card:hover .play-badge {
+            transform: scale(1.15);
+            background-color: var(--accent-1);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-pink-500 selection:text-white">
+
+    <!-- Индикатор прогресса чтения/скролла -->
+    <div class="scroll-progress-bar"></div>
+
+    <!-- Фоновые кинематографичные частицы -->
+    <canvas id="ambient-particles"></canvas>
+
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+
+    <header class="fixed w-full top-0 left-0 p-5 bg-[#0d0d12e6] backdrop-blur-md z-50 border-b border-white/5 flex justify-between items-center">
+        <a href="#" class="flex items-center gap-3 text-2xl font-extrabold tracking-wide text-white decoration-none group">
+            <span>Видео<span class="text-gradient">Подарок</span></span>
+        </a>
+        <button class="magnetic-btn bg-white/10 text-white px-5 py-2.5 rounded-full font-semibold text-sm transition duration-300 hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,42,95,0.4)] active:scale-95" onclick="openModal()">Связаться</button>
+    </header>
+
+    <main class="relative z-10">
+        <section id="hero-section" class="min-h-screen flex flex-col justify-center items-center text-center px-5 pt-32 pb-16 max-w-4xl mx-auto relative">
+            
+            <!-- Оригинальный логотип для компьютеров (слева, ровно посередине между левым краем экрана и надписью) -->
+            <img id="desktop-mascot-logo" src="photo_2026-11-12_13-22-39_2.jpg" alt="Праздничный логотип" class="floating-logo w-28 h-28 md:w-40 md:h-40 object-contain mb-6 md:absolute md:top-1/3 md:mb-0 z-10 hidden md:block">
+            
+            <!-- Оригинальный логотип для мобильных телефонов (по центру, уменьшенный размер) -->
+            <img src="photo_2026-11-12_13-22-39_2.jpg" alt="Праздничный логотип" class="floating-logo w-24 h-24 object-contain mb-6 md:hidden z-10">
+
+            <div class="anim-reveal hero-badge bg-[#ff7e4026] text-[#ff7e40] px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-[#ff7e404d] z-20">
+                🎁 Эмоции, которые останутся навсегда
+            </div>
+
+            <h1 class="anim-reveal text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6 drop-shadow-lg z-20" style="transition-delay: 90ms;">
+                Удивите близких <br>
+                <span class="text-gradient drop-shadow-[0_0_15px_rgba(255,42,95,0.5)]">видео поздравлением</span>
+            </h1>
+
+            <p class="anim-reveal text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto z-20 drop-shadow-md" style="transition-delay: 180ms;">
+                Я создаю индивидуальные видео-открытки, слайд-шоу из фотографий и креативные ролики для любого торжества. Подарите не просто вещь, а настоящие слезы радости и смех!
+            </p>
+
+            <button class="anim-reveal magnetic-btn cta-btn text-white px-10 py-4 rounded-full font-bold text-lg md:text-xl z-20" style="transition-delay: 270ms;" onclick="openModal()">
+                ЗАКАЗАТЬ ВИДЕО
+            </button>
+        </section>
+
+        <section class="max-w-6xl mx-auto px-5 pb-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="service-card anim-reveal from-left rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">🎂</div>
+                <h3 class="text-xl font-bold text-white mb-3">С Днем Рождения</h3>
+                <p class="text-slate-400 text-sm mb-5">Душевное или веселое видео для именинника. Соберем лучшие моменты, добавим любимую музыку и теплые слова.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">С днем рождения</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Девушке</span>
+                </div>
+            </div>
+
+            <div class="service-card anim-reveal rounded-2xl p-8 relative overflow-hidden" style="transition-delay: 100ms;">
+                <div class="text-5xl mb-5">🥂</div>
+                <h3 class="text-xl font-bold text-white mb-3">На Юбилей</h3>
+                <p class="text-slate-400 text-sm mb-5">Трогательный фильм-биография для круглой даты. Покажем жизненный путь, достижения и поздравления от всей семьи.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">На юбилей</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Памятное видео</span>
+                </div>
+            </div>
+
+            <div class="service-card anim-reveal from-right rounded-2xl p-8 relative overflow-hidden" style="transition-delay: 200ms;">
+                <div class="text-5xl mb-5">📸</div>
+                <h3 class="text-xl font-bold text-white mb-3">Слайд-шоу из фото</h3>
+                <p class="text-slate-400 text-sm mb-5">Оживим ваши архивы. Красивые переходы, эффекты параллакса и идеальная синхронизация с музыкой.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Слайд-шоу</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Из фотографий</span>
+                </div>
+            </div>
+
+            <div class="service-card anim-reveal from-left rounded-2xl p-8 relative overflow-hidden">
+                <div class="text-5xl mb-5">💍</div>
+                <h3 class="text-xl font-bold text-white mb-3">На свадьбу</h3>
+                <p class="text-slate-400 text-sm mb-5">Незабываемый подарок молодоженам. Романтическая история знакомства или веселые пожелания от всех друзей.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">На свадьбу</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Love Story</span>
+                </div>
+            </div>
+
+            <div class="service-card anim-reveal rounded-2xl p-8 relative overflow-hidden" style="transition-delay: 100ms;">
+                <div class="text-5xl mb-5">📺</div>
+                <h3 class="text-xl font-bold text-white mb-3">Выпуск новостей</h3>
+                <p class="text-slate-400 text-sm mb-5">Экстренное включение! Ведущий новостей сообщит всей стране о празднике вашего близкого человека. Отличный юмор.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Стиль новостей</span>
+                </div>
+            </div>
+
+            <div class="service-card anim-reveal from-right rounded-2xl p-8 relative overflow-hidden" style="transition-delay: 200ms;">
+                <div class="text-5xl mb-5">📱</div>
+                <h3 class="text-xl font-bold text-white mb-3">Видео-открытка</h3>
+                <p class="text-slate-400 text-sm mb-5">Яркое, динамичное видео для быстрой отправки в мессенджеры (WhatsApp, Telegram, MAX). Идеально подходит для любого повода.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Видео открытка</span>
+                    <span class="text-xs bg-white/5 px-2.5 py-1 rounded-md text-gray-300">Для MAX</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Раздел "Мои работы" (#portfolio) на 10 видео по образцу mikerover.github.io/video-portfolio -->
+        <section id="portfolio" class="max-w-6xl mx-auto px-5 pb-24">
+            <h2 class="anim-reveal text-3xl md:text-5xl font-bold text-center mb-14">Мои работы</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Видео 1 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video1.mp4', 'Поздравление с Днем Рождения')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video1.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Поздравление с Днем Рождения</h3>
+                        <p class="text-slate-400 text-sm">Душевный видеоролик из семейных фотографий и видео.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 2 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video2.mp4', 'Фильм-биография на Юбилей')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video2.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Фильм-биография на Юбилей</h3>
+                        <p class="text-slate-400 text-sm">Трогательная история жизни и поздравления от близких.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 3 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video3.mp4', 'Экстренный выпуск новостей')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video3.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Экстренный выпуск новостей</h3>
+                        <p class="text-slate-400 text-sm">Креативное поздравление с юмором в формате ТВ-эфира.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 4 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video4.mp4', 'Слайд-шоу из фотографий')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video4.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Слайд-шоу из фотографий</h3>
+                        <p class="text-slate-400 text-sm">Ожившие архивные кадры с плавными переходами и музыкой.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 5 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video5.mp4', 'Свадебное поздравление Love Story')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video5.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Свадебное поздравление Love Story</h3>
+                        <p class="text-slate-400 text-sm">Романтический видеоподарок для молодоженов от друзей.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 6 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video6.mp4', 'Видео-открытка для мессенджеров')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video6.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Видео-открытка для мессенджеров</h3>
+                        <p class="text-slate-400 text-sm">Динамичный ролик для отправки в WhatsApp, Telegram и MAX.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 7 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video7.mp4', 'Поздравление девушке с Днем Рождения')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video7.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Поздравление девушке</h3>
+                        <p class="text-slate-400 text-sm">Нежный и стильный видеоролик с любимой музыкой.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 8 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video8.mp4', 'Поздравление от звезды (ИИ)')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video8.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Поздравление от звезды</h3>
+                        <p class="text-slate-400 text-sm">Необычный сюрприз с использованием нейросетей и озвучки.</p>
+                    </div>
+                </div>
+
+                <!-- Видео 9 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 160ms;" onclick="openVideoModal('videos/video9.mp4', 'Корпоративное видеопоздравление')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video9.mp4#t=0.5" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Корпоративное поздравление</h3>
+                        <p class="text-slate-400 text-sm">Яркий командный ролик для руководителя или коллеги.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="steps-section" class="max-w-5xl mx-auto px-5 pb-24 text-center">
+            <h2 class="anim-reveal text-3xl md:text-5xl font-bold mb-16">Как это работает?</h2>
+            <div class="steps-grid grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Анимированная прямая линия строго между кругами 1 -> 2 и 2 -> 3 (не заходит на круги) -->
+                <div class="steps-connector-segment steps-connector-1 hidden md:block" aria-hidden="true">
+                    <div id="step-line-fill-1" class="steps-connector-fill"></div>
+                </div>
+                <div class="steps-connector-segment steps-connector-2 hidden md:block" aria-hidden="true">
+                    <div id="step-line-fill-2" class="steps-connector-fill"></div>
+                </div>
+
+                <div class="relative step-card anim-reveal from-left">
+                    <div class="step-badge w-16 h-16 mx-auto bg-[#1a1a24] border-2 border-[#ff7e40] text-white text-2xl font-extrabold rounded-full flex items-center justify-center mb-5">1</div>
+                    <h3 class="text-xl font-bold mb-2">Обсуждаем идею</h3>
+                    <p class="text-slate-400 text-sm">Я связываюсь с вами в удобном мессенджере. Вы рассказываете о поводе, мы вместе выбираем формат и стиль ролика.</p>
+                </div>
+                <div class="relative step-card anim-reveal" style="transition-delay: 140ms;">
+                    <div class="step-badge w-16 h-16 mx-auto bg-[#1a1a24] border-2 border-[#ff7e40] text-white text-2xl font-extrabold rounded-full flex items-center justify-center mb-5" style="animation-delay: 1s;">2</div>
+                    <h3 class="text-xl font-bold mb-2">Материалы</h3>
+                    <p class="text-slate-400 text-sm">Вы присылаете мне фотографии, домашние видео и ваши пожелания по тексту.</p>
+                </div>
+                <div class="relative step-card anim-reveal from-right" style="transition-delay: 280ms;">
+                    <div class="step-badge w-16 h-16 mx-auto bg-[#1a1a24] border-2 border-[#ff7e40] text-white text-2xl font-extrabold rounded-full flex items-center justify-center mb-5" style="animation-delay: 2s;">3</div>
+                    <h3 class="text-xl font-bold mb-2">Монтаж и Готовность</h3>
+                    <p class="text-slate-400 text-sm">Я создаю магию, согласовываю с вами детали и отдаю готовый шедевр точно в срок!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-[#111118]/90 backdrop-blur-sm py-16 px-5 border-t border-white/5">
+            <div class="anim-reveal max-w-4xl mx-auto text-slate-400 text-sm leading-relaxed text-justify space-y-4">
+                <h2 class="text-xl font-bold text-slate-300 mb-4 text-center">Индивидуальные видео для ваших близких</h2>
+                <p>Если вы ищете оригинальный способ подарить эмоции, лучший выбор — это <strong>заказать видео поздравление</strong>. В эпоху цифровых технологий живой, динамичный ролик вызывает гораздо больше искренней радости, чем обычная графическая, статичная открытка или текстовое сообщение со смайликами.</p>
+                
+                <p>Вы можете <strong>заказать видео поздравление с днем</strong> торжества заранее, чтобы я успел подготовить лучший сюрприз. Чаще всего клиенты хотят <strong>заказать видео поздравление с днем рождения</strong>. Я предлагаю различные подходы: если вы ищете романтичный вариант, можно <strong>видео поздравление с днем рождения девушке заказать</strong> с красивой музыкой и нежными эффектами.</p>
+
+                <h3 class="text-lg font-semibold text-slate-300 mt-6 mb-3">Популярные форматы</h3>
+                <p>Для душевных семейных мероприятий отличной идеей будет <strong>заказать видео слайд шоу поздравления из фото</strong>. Если приближается важная круглая дата, настоятельно рекомендую <strong>видео поздравление на юбилей заказать</strong> из ваших семейных архивов (я также помогу просто <strong>видео на юбилей заказать</strong> с добавлением титров и красивых переходов). Вы можете просто <strong>заказать видео поздравление из фотографий</strong>, и я превращу их в полноценный короткий фильм. А для молодоженов отличным решением станет возможность <strong>заказать видео поздравление на свадьбу</strong>.</p>
+                
+                <h3 class="text-lg font-semibold text-slate-300 mt-6 mb-3">Нестандартные и веселые решения</h3>
+                <p>Не знаете, <strong>где заказать видео поздравление</strong> с юмором? Я предлагаю необычные форматы: вы можете <strong>заказать видео открытку</strong> для быстрой отправки в MAX или WhatsApp, или, например, <strong>заказать видео поздравление от звезды</strong>, созданное с помощью ИИ. <strong>Видео поздравление в стиле выпуска новостей заказать</strong>, чтобы рассмешить виновника торжества!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="festive-footer text-center py-12 px-5 z-10">
+        <h2 class="anim-reveal text-3xl md:text-4xl font-extrabold text-white mb-4 drop-shadow-md">Готовы создать праздник? 🎉</h2>
+        <p class="anim-reveal text-white/90 text-lg mb-8 max-w-lg mx-auto drop-shadow-sm" style="transition-delay: 100ms;">Свяжитесь со мной, и мы придумаем креативный сценарий для вашего поздравления.</p>
+        <button class="anim-reveal magnetic-btn bg-white text-indigo-600 px-8 py-3 rounded-full font-bold text-lg hover:scale-105 active:scale-95 transition duration-300 shadow-lg mb-8" style="transition-delay: 200ms;" onclick="openModal()">Обсудить идею</button>
+        <p class="text-white/60 text-sm mt-8">&copy; 2026 Студия Видеопоздравлений. Дарим эмоции в каждом кадре.</p>
+    </footer>
+
+    <div id="contact-modal" class="modal-overlay fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[9999]">
+        <div class="modal-content bg-slate-900 border border-white/10 p-8 rounded-3xl w-11/12 max-w-sm text-center relative shadow-2xl">
+            <button class="absolute top-4 right-5 text-slate-400 hover:text-white text-2xl" onclick="closeModal()">✕</button>
+            <h3 class="text-2xl font-bold text-white mb-2">Написать мне</h3>
+            <p class="text-slate-400 text-sm mb-6">Выберите удобный мессенджер для связи</p>
+            
+            <a href="https://wa.me/79174489817" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white font-bold py-3 px-4 rounded-xl mb-4 hover:-translate-y-1 transition">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                WhatsApp
+            </a>
+            
+            <a href="tg://resolve?domain=mikerover" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#2AABEE] text-white font-bold py-3 px-4 rounded-xl hover:-translate-y-1 transition">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.96 1.25-5.54 3.67-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.38-.49 1.07-.75 4.2-1.83 7-3.04 8.41-3.63 4-.1 4.83.67 4.9 1.05z"/></svg>
+                Telegram
+            </a>
+            
+            <a href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#8B5CF6] text-white font-bold py-3 px-4 rounded-xl mt-4 hover:-translate-y-1 transition">
+                <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c5.5 0 10 4 10 9s-4.5 9-10 9c-1.4 0-2.8-.3-4.1-.7L3 21l1.5-4.5C3.6 15.1 3 13.6 3 12c0-5 4.5-9 9-9zm0 2c-4.4 0-8 3.1-8 7 0 1.5.5 2.9 1.5 4.1.2.3.2.7.1 1.1l-.8 2.3 2.5-1.1c.3-.1.7-.1 1.1.1 1.1.5 2.3.8 3.6.8 4.4 0 8-3.1 8-7s-3.6-7-8-7z"/></svg>
+                MAX
+            </a>
+        </div>
+    </div>
+
+    <!-- Модальное окно просмотра видео со звуком (как на mikerover.github.io/video-portfolio) -->
+    <div id="video-modal" class="modal-overlay fixed inset-0 bg-black/90 backdrop-blur-md flex justify-center items-center z-[9999] p-4">
+        <div class="modal-content bg-[#161621] border border-white/10 rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl relative">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <h3 id="video-modal-title" class="text-lg font-bold text-white truncate pr-4">Просмотр работы</h3>
+                <button class="text-slate-400 hover:text-white text-2xl leading-none" onclick="closeVideoModal()">✕</button>
+            </div>
+            <div class="bg-black aspect-video flex items-center justify-center">
+                <video id="portfolio-modal-player" controls playsinline class="w-full h-full max-h-[75vh] object-contain"></video>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('contact-modal');
+        const videoModal = document.getElementById('video-modal');
+        const portfolioPlayer = document.getElementById('portfolio-modal-player');
+        const videoModalTitle = document.getElementById('video-modal-title');
+
+        function openModal() {
+            if (!modal) return;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            if (!modal) return;
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function openVideoModal(videoSrc, titleText) {
+            if (!videoModal || !portfolioPlayer) return;
+            videoModalTitle.textContent = titleText || 'Мои работы';
+            portfolioPlayer.src = videoSrc;
+            videoModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            portfolioPlayer.play().catch(() => {});
+        }
+
+        function closeVideoModal() {
+            if (!videoModal || !portfolioPlayer) return;
+            portfolioPlayer.pause();
+            portfolioPlayer.removeAttribute('src');
+            portfolioPlayer.load();
+            videoModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+        window.openVideoModal = openVideoModal;
+        window.closeVideoModal = closeVideoModal;
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (modal.classList.contains('active')) closeModal();
+                if (videoModal.classList.contains('active')) closeVideoModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Детальная 3D-отрисовка вашего фирменного логотипа с плавным двухцветным градиентом (темно-синий и фиолетовый)
+            const logoImages = document.querySelectorAll('img[src="photo_2026-11-12_13-22-39_2.jpg"]');
+            const mascotCanvas = document.createElement('canvas');
+            mascotCanvas.width = 512;
+            mascotCanvas.height = 512;
+            const mCtx = mascotCanvas.getContext('2d');
+
+            const renderMascotFrame = (time) => {
+                const t = time * 0.0012;
+                mCtx.clearRect(0, 0, 512, 512);
+
+                // Плавный двухцветный градиент внутри круга: только темно-синий (#0a195c) и фиолетовый (#7e22ce)
+                const gx1 = 256 + Math.cos(t) * 180;
+                const gy1 = 256 + Math.sin(t) * 180;
+                const gx2 = 256 - Math.cos(t) * 180;
+                const gy2 = 256 - Math.sin(t) * 180;
+
+                const shift = (Math.sin(t * 1.3) + 1) / 2; // Плавное дыхание от 0 до 1
+
+                const bgGrad = mCtx.createLinearGradient(gx1, gy1, gx2, gy2);
+                bgGrad.addColorStop(0, '#0a195c');
+                bgGrad.addColorStop(0.25 + shift * 0.5, '#7e22ce');
+                bgGrad.addColorStop(1, '#0c1f6e');
+
+                mCtx.save();
+                mCtx.beginPath();
+                mCtx.arc(256, 256, 232, 0, Math.PI * 2);
+                mCtx.clip();
+
+                mCtx.fillStyle = bgGrad;
+                mCtx.fillRect(0, 0, 512, 512);
+
+                // Мягкое двухцветное радиальное перетекание (фиолетовый и темно-синий)
+                const auraX = 256 + Math.sin(t * 1.1) * 70;
+                const auraY = 235 + Math.cos(t * 0.9) * 60;
+                const auraGrad = mCtx.createRadialGradient(auraX, auraY, 20, 256, 256, 232);
+                auraGrad.addColorStop(0, `rgba(139, 92, 246, ${(0.35 + shift * 0.45).toFixed(2)})`);
+                auraGrad.addColorStop(1, 'rgba(10, 25, 92, 0.75)');
+                mCtx.fillStyle = auraGrad;
+                mCtx.fillRect(0, 0, 512, 512);
+                mCtx.restore();
+
+                // Светящийся неоновый ободок строго в темно-синих и фиолетовых тонах
+                const rimGrad = mCtx.createLinearGradient(gx2, gy1, gx1, gy2);
+                rimGrad.addColorStop(0, '#1e3a8a');
+                rimGrad.addColorStop(0.5, '#9333ea');
+                rimGrad.addColorStop(1, '#0f236e');
+                mCtx.beginPath();
+                mCtx.arc(256, 256, 232, 0, Math.PI * 2);
+                mCtx.lineWidth = 12;
+                mCtx.strokeStyle = rimGrad;
+                mCtx.shadowColor = '#7e22ce';
+                mCtx.shadowBlur = 22;
+                mCtx.stroke();
+                mCtx.shadowBlur = 0;
+
+                // 3D Желтая голова смайлика
+                const faceGrad = mCtx.createRadialGradient(230, 230, 30, 256, 285, 165);
+                faceGrad.addColorStop(0, '#fde047');
+                faceGrad.addColorStop(0.65, '#facc15');
+                faceGrad.addColorStop(1, '#ea580c');
+                mCtx.beginPath();
+                mCtx.arc(256, 290, 155, 0, Math.PI * 2);
+                mCtx.fillStyle = faceGrad;
+                mCtx.shadowColor = 'rgba(0,0,0,0.55)';
+                mCtx.shadowBlur = 25;
+                mCtx.shadowOffsetY = 12;
+                mCtx.fill();
+                mCtx.shadowBlur = 0;
+                mCtx.shadowOffsetY = 0;
+
+                // Румянец на щеках
+                [145, 367].forEach(cx => {
+                    const blush = mCtx.createRadialGradient(cx, 335, 5, cx, 335, 38);
+                    blush.addColorStop(0, 'rgba(239, 68, 68, 0.55)');
+                    blush.addColorStop(1, 'rgba(239, 68, 68, 0)');
+                    mCtx.fillStyle = blush;
+                    mCtx.beginPath();
+                    mCtx.arc(cx, 335, 38, 0, Math.PI * 2);
+                    mCtx.fill();
+                });
+
+                // Радостная 3D-улыбка
+                mCtx.beginPath();
+                mCtx.moveTo(175, 355);
+                mCtx.quadraticCurveTo(256, 435, 337, 355);
+                mCtx.quadraticCurveTo(256, 395, 175, 355);
+                mCtx.closePath();
+                const smileGrad = mCtx.createLinearGradient(256, 355, 256, 415);
+                smileGrad.addColorStop(0, '#7c2d12');
+                smileGrad.addColorStop(1, '#451a03');
+                mCtx.fillStyle = smileGrad;
+                mCtx.fill();
+
+                // Праздничный красно-белый полосатый колпак справа сверху
+                mCtx.save();
+                mCtx.beginPath();
+                mCtx.moveTo(245, 155);
+                mCtx.lineTo(405, 65);
+                mCtx.lineTo(410, 235);
+                mCtx.closePath();
+                mCtx.clip();
+
+                mCtx.fillStyle = '#ef4444';
+                mCtx.fillRect(230, 50, 200, 200);
+
+                // Белые полоски на колпаке
+                mCtx.strokeStyle = '#f8fafc';
+                mCtx.lineWidth = 18;
+                [105, 150, 195].forEach(y => {
+                    mCtx.beginPath();
+                    mCtx.moveTo(235, y - 20);
+                    mCtx.lineTo(425, y + 35);
+                    mCtx.stroke();
+                });
+                mCtx.restore();
+
+                // Розовый пушистый помпон на верхушке колпака
+                const pomGrad = mCtx.createRadialGradient(402, 55, 4, 410, 62, 28);
+                pomGrad.addColorStop(0, '#fda4af');
+                pomGrad.addColorStop(0.6, '#f43f5e');
+                pomGrad.addColorStop(1, '#9f1239');
+                mCtx.beginPath();
+                mCtx.arc(408, 62, 26, 0, Math.PI * 2);
+                mCtx.fillStyle = pomGrad;
+                mCtx.shadowColor = 'rgba(0,0,0,0.4)';
+                mCtx.shadowBlur = 10;
+                mCtx.fill();
+                mCtx.shadowBlur = 0;
+
+                // Отрисовка двух реалистичных фото-объективов вместо глаз
+                const drawCameraLens = (cx, cy) => {
+                    mCtx.beginPath();
+                    mCtx.arc(cx, cy, 68, 0, Math.PI * 2);
+                    const metalGrad = mCtx.createLinearGradient(cx - 65, cy - 65, cx + 65, cy + 65);
+                    metalGrad.addColorStop(0, '#475569');
+                    metalGrad.addColorStop(0.5, '#0f172a');
+                    metalGrad.addColorStop(1, '#334155');
+                    mCtx.fillStyle = metalGrad;
+                    mCtx.shadowColor = 'rgba(0,0,0,0.65)';
+                    mCtx.shadowBlur = 15;
+                    mCtx.shadowOffsetY = 8;
+                    mCtx.fill();
+                    mCtx.shadowBlur = 0;
+                    mCtx.shadowOffsetY = 0;
+
+                    [60, 52, 44].forEach((r, idx) => {
+                        mCtx.beginPath();
+                        mCtx.arc(cx, cy, r, 0, Math.PI * 2);
+                        mCtx.lineWidth = idx === 1 ? 3 : 1.5;
+                        mCtx.strokeStyle = idx === 1 ? '#64748b' : '#1e293b';
+                        mCtx.stroke();
+                    });
+
+                    const glassGrad = mCtx.createRadialGradient(cx - 12, cy - 12, 4, cx, cy, 42);
+                    glassGrad.addColorStop(0, '#020617');
+                    glassGrad.addColorStop(0.35, '#0284c7');
+                    glassGrad.addColorStop(0.7, '#4f46e5');
+                    glassGrad.addColorStop(0.9, '#c026d3');
+                    glassGrad.addColorStop(1, '#090d16');
+                    mCtx.beginPath();
+                    mCtx.arc(cx, cy, 42, 0, Math.PI * 2);
+                    mCtx.fillStyle = glassGrad;
+                    mCtx.fill();
+
+                    mCtx.beginPath();
+                    mCtx.arc(cx, cy, 16, 0, Math.PI * 2);
+                    mCtx.fillStyle = '#020617';
+                    mCtx.fill();
+
+                    mCtx.beginPath();
+                    mCtx.ellipse(cx - 15, cy - 16, 12, 7, -Math.PI / 4, 0, Math.PI * 2);
+                    mCtx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+                    mCtx.fill();
+
+                    mCtx.beginPath();
+                    mCtx.arc(cx + 16, cy + 16, 6, 0, Math.PI * 2);
+                    mCtx.fillStyle = 'rgba(244, 114, 182, 0.65)';
+                    mCtx.fill();
+                };
+
+                drawCameraLens(180, 272);
+                drawCameraLens(332, 272);
+
+                const dataUrl = mascotCanvas.toDataURL('image/png');
+                logoImages.forEach(img => {
+                    img.src = dataUrl;
+                });
+            };
+
+            // Плавное периодическое обновление градиента внутри круга смайлика
+            renderMascotFrame(0);
+            let lastMascotUpdate = 0;
+            const animateMascotBg = (timestamp) => {
+                if (timestamp - lastMascotUpdate > 65) {
+                    renderMascotFrame(timestamp);
+                    lastMascotUpdate = timestamp;
+                }
+                requestAnimationFrame(animateMascotBg);
+            };
+            requestAnimationFrame(animateMascotBg);
+
+            // Точное центрирование смайлика на компьютерах строго посередине между левым краем окна (0px) и началом текста заголовка (h1)
+            const desktopMascot = document.getElementById('desktop-mascot-logo');
+            const heroSection = document.getElementById('hero-section');
+            const heroHeading = heroSection ? heroSection.querySelector('h1') : null;
+
+            const centerSmileyBetweenEdgeAndText = () => {
+                if (!desktopMascot || !heroSection || !heroHeading || window.innerWidth < 768) return;
+
+                const sectionRect = heroSection.getBoundingClientRect();
+                const logoWidth = desktopMascot.offsetWidth || 160;
+
+                // Измеряем реальную левую границу самого текста внутри h1 относительно левого края окна (0px)
+                const range = document.createRange();
+                range.selectNodeContents(heroHeading);
+                const textRect = range.getBoundingClientRect();
+                const textLeftEdge = textRect.width > 0 ? textRect.left : heroHeading.getBoundingClientRect().left;
+
+                // Середина расстояния от левого края экрана (0px) до левого края текста заголовка
+                const targetCenterViewportX = textLeftEdge / 2;
+
+                // Ограничиваем, чтобы смайлик не уходил за левый край экрана и не наезжал на текст на узких экранах
+                const minCenterX = logoWidth / 2 + 12;
+                const maxCenterX = Math.max(minCenterX, textLeftEdge - logoWidth / 2 - 16);
+                const clampedViewportLeft = Math.min(maxCenterX, Math.max(minCenterX, targetCenterViewportX)) - (logoWidth / 2);
+
+                // Переводим экранную координату в координату внутри секции hero-section
+                const relativeLeft = clampedViewportLeft - sectionRect.left;
+                desktopMascot.style.left = `${relativeLeft.toFixed(1)}px`;
+            };
+
+            window.addEventListener('resize', centerSmileyBetweenEdgeAndText);
+            window.addEventListener('load', centerSmileyBetweenEdgeAndText);
+            requestAnimationFrame(centerSmileyBetweenEdgeAndText);
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(centerSmileyBetweenEdgeAndText);
+            }
+
+            // 2. ОБРАТИМАЯ СКРОЛЛ-АНИМАЦИЯ (срабатывает и при прокрутке вниз, и при возврате наверх)
+            const revealItems = document.querySelectorAll('.anim-reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        // Элемент мягко скрывается, когда уходит за пределы экрана, чтобы снова красиво появиться при следующей прокрутке
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealItems.forEach(item => revealObserver.observe(item));
+
+            // 3. НЕПРЕРЫВНЫЙ СКРОЛЛ-ДВИЖОК (Прогресс-бар, параллакс логотипов, заполнение линии шагов 1-2-3)
+            const header = document.querySelector('header');
+            const floatingLogos = document.querySelectorAll('.floating-logo');
+            const glow1 = document.querySelector('.bg-glow');
+            const glow2 = document.querySelector('.bg-glow-2');
+            const stepsSection = document.getElementById('steps-section');
+            const stepLineFill1 = document.getElementById('step-line-fill-1');
+            const stepLineFill2 = document.getElementById('step-line-fill-2');
+            const stepCards = document.querySelectorAll('.step-card');
+
+            let mouseX = 0;
+            let mouseY = 0;
+            let lastScrollY = window.scrollY;
+            let scrollVelocity = 0;
+
+            const updateOnScroll = () => {
+                const scrollY = window.scrollY;
+                scrollVelocity = scrollY - lastScrollY;
+                lastScrollY = scrollY;
+
+                const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                const progress = Math.min(100, Math.max(0, (scrollY / maxScroll) * 100));
+                document.documentElement.style.setProperty('--scroll-progress', `${progress}%`);
+
+                // Сжатие шапки
+                if (scrollY > 40) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+
+                // Параллакс для плавающего логотипа в первом экране
+                const parallaxOffset = Math.min(140, scrollY * 0.22);
+                floatingLogos.forEach(logo => {
+                    logo.style.setProperty('--parallax-y', `${parallaxOffset}px`);
+                });
+
+                // Плавный сдвиг фоновых свечений при прокрутке
+                if (glow1 && glow2) {
+                    glow1.style.transform = `translate3d(${mouseX * 25}px, ${scrollY * 0.08 + mouseY * 25}px, 0)`;
+                    glow2.style.transform = `translate3d(${-mouseX * 30}px, ${-scrollY * 0.06 - mouseY * 30}px, 0)`;
+                }
+
+                // Заполнение энергетической линии в секции "Как это работает?" строго от 1 к 2 и от 2 к 3
+                if (stepsSection && stepLineFill1 && stepLineFill2) {
+                    const rect = stepsSection.getBoundingClientRect();
+                    const viewH = window.innerHeight;
+                    const sectionProgress = Math.min(1, Math.max(0, (viewH * 0.78 - rect.top) / (rect.height * 0.65)));
+
+                    // Первая половина скролла заполняет отрезок 1 -> 2, вторая половина — отрезок 2 -> 3
+                    const seg1Progress = Math.min(1, Math.max(0, sectionProgress * 2)) * 100;
+                    const seg2Progress = Math.min(1, Math.max(0, (sectionProgress - 0.5) * 2)) * 100;
+
+                    stepLineFill1.style.width = `${seg1Progress.toFixed(1)}%`;
+                    stepLineFill2.style.width = `${seg2Progress.toFixed(1)}%`;
+
+                    // Поочередная активация кругов 1 -> 2 -> 3 синхронно с линией
+                    const thresholds = [0.05, 0.5, 0.95];
+                    stepCards.forEach((card, index) => {
+                        if (sectionProgress >= thresholds[index]) {
+                            card.classList.add('step-active');
+                        } else {
+                            card.classList.remove('step-active');
+                        }
+                    });
+                }
+            };
+
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(updateOnScroll);
+            }, { passive: true });
+            updateOnScroll();
+
+            // 4. 3D TILT И SPOTLIGHT-ПОДСВЕТКА КАРТОЧЕК УСЛУГ
+            const cards = document.querySelectorAll('.service-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    // Координаты для радиального свечения
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+
+                    // Углы 3D-наклона карточки
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -6;
+                    const rotateY = ((x - centerX) / centerX) * 6;
+
+                    card.style.setProperty('--rotate-x', `${rotateX.toFixed(2)}deg`);
+                    card.style.setProperty('--rotate-y', `${rotateY.toFixed(2)}deg`);
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--rotate-x', '0deg');
+                    card.style.setProperty('--rotate-y', '0deg');
+                });
+            });
+
+            // 5. МАГНИТНЫЕ КНОПКИ (мягкое притяжение к курсору)
+            const magneticButtons = document.querySelectorAll('.magnetic-btn');
+            magneticButtons.forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const rect = btn.getBoundingClientRect();
+                    const deltaX = (e.clientX - (rect.left + rect.width / 2)) * 0.22;
+                    const deltaY = (e.clientY - (rect.top + rect.height / 2)) * 0.28;
+                    btn.style.transform = `translate3d(${deltaX.toFixed(1)}px, ${deltaY.toFixed(1)}px, 0) scale(1.04)`;
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = '';
+                });
+            });
+
+            // Отслеживание мыши для фонового параллакса
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) - 0.5;
+                mouseY = (e.clientY / window.innerHeight) - 0.5;
+                if (glow1 && glow2) {
+                    glow1.style.transform = `translate3d(${mouseX * 28}px, ${window.scrollY * 0.08 + mouseY * 28}px, 0)`;
+                    glow2.style.transform = `translate3d(${-mouseX * 32}px, ${-window.scrollY * 0.06 - mouseY * 32}px, 0)`;
+                }
+            }, { passive: true });
+
+            // 6. КИНЕМАТОГРАФИЧНЫЕ ЧАСТИЦЫ БОКЕ НА ФОНЕ (реагируют на скорость скролла)
+            const particleCanvas = document.getElementById('ambient-particles');
+            const pCtx = particleCanvas.getContext('2d');
+            let particles = [];
+
+            const resizeCanvas = () => {
+                particleCanvas.width = window.innerWidth;
+                particleCanvas.height = window.innerHeight;
+            };
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const colors = ['rgba(255, 42, 95, 0.35)', 'rgba(255, 126, 64, 0.3)', 'rgba(33, 212, 253, 0.25)', 'rgba(183, 33, 255, 0.25)'];
+            for (let i = 0; i < 28; i++) {
+                particles.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    radius: Math.random() * 2.6 + 1,
+                    speedY: -(Math.random() * 0.35 + 0.12),
+                    speedX: (Math.random() - 0.5) * 0.25,
+                    color: colors[i % colors.length]
+                });
+            }
+
+            const animateParticles = () => {
+                pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+                const velocityBoost = Math.max(-6, Math.min(6, scrollVelocity * 0.12));
+                scrollVelocity *= 0.9;
+
+                particles.forEach(p => {
+                    p.y += p.speedY - velocityBoost;
+                    p.x += p.speedX;
+
+                    if (p.y < -10) p.y = particleCanvas.height + 10;
+                    if (p.y > particleCanvas.height + 10) p.y = -10;
+                    if (p.x < -10) p.x = particleCanvas.width + 10;
+                    if (p.x > particleCanvas.width + 10) p.x = -10;
+
+                    pCtx.beginPath();
+                    pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    pCtx.fillStyle = p.color;
+                    pCtx.fill();
+                });
+
+                requestAnimationFrame(animateParticles);
+            };
+            animateParticles();
+        });
+    </script>
+</body>
+</html>
