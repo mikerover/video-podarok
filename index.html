@@ -818,7 +818,7 @@
                 Telegram
             </a>
             
-            <a href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-[#8B5CF6] text-white font-bold py-3 px-4 rounded-xl mt-4 hover:-translate-y-1 transition">
+            <a href="https://max.ru/se14740493_bot" rel="noopener" class="flex items-center justify-center gap-3 w-full bg-[#8B5CF6] text-white font-bold py-3 px-4 rounded-xl mt-4 hover:-translate-y-1 transition">
                 <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c5.5 0 10 4 10 9s-4.5 9-10 9c-1.4 0-2.8-.3-4.1-.7L3 21l1.5-4.5C3.6 15.1 3 13.6 3 12c0-5 4.5-9 9-9zm0 2c-4.4 0-8 3.1-8 7 0 1.5.5 2.9 1.5 4.1.2.3.2.7.1 1.1l-.8 2.3 2.5-1.1c.3-.1.7-.1 1.1.1 1.1.5 2.3.8 3.6.8 4.4 0 8-3.1 8-7s-3.6-7-8-7z"/></svg>
                 MAX
             </a>
@@ -826,14 +826,17 @@
     </div>
 
     <!-- Модальное окно просмотра видео со звуком (как на mikerover.github.io/video-portfolio) -->
-    <div id="video-modal" class="modal-overlay fixed inset-0 bg-black/90 backdrop-blur-md flex justify-center items-center z-[9999] p-4">
-        <div class="modal-content bg-[#161621] border border-white/10 rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl relative">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
-                <h3 id="video-modal-title" class="text-lg font-bold text-white truncate pr-4">Просмотр работы</h3>
-                <button class="text-slate-400 hover:text-white text-2xl leading-none" onclick="closeVideoModal()">✕</button>
+    <div id="video-modal" class="modal-overlay fixed inset-0 bg-black/95 backdrop-blur-md flex justify-center items-center z-[9999] p-0 sm:p-4">
+        <div class="modal-content bg-[#161621] border-0 sm:border border-white/10 rounded-none sm:rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl relative flex flex-col h-full sm:h-auto max-h-full">
+            <div class="flex items-center gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-white/10 shrink-0">
+                <button class="text-slate-300 hover:text-white text-3xl leading-none shrink-0" onclick="closeVideoModal()" aria-label="Закрыть видео">✕</button>
+                <h3 id="video-modal-title" class="text-base sm:text-lg font-bold text-white truncate">Просмотр работы</h3>
+                <button id="video-fullscreen-btn" class="ml-auto text-slate-300 hover:text-white shrink-0 p-1" onclick="toggleVideoFullscreen()" aria-label="Развернуть на весь экран">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                </button>
             </div>
-            <div class="bg-black aspect-video flex items-center justify-center">
-                <video id="portfolio-modal-player" controls playsinline class="w-full h-full max-h-[75vh] object-contain"></video>
+            <div class="bg-black flex-1 min-h-0 w-full flex items-center justify-center sm:aspect-video sm:flex-none">
+                <video id="portfolio-modal-player" controls playsinline webkit-playsinline preload="metadata" class="w-full h-full object-contain"></video>
             </div>
         </div>
     </div>
@@ -865,8 +868,19 @@
             portfolioPlayer.play().catch(() => {});
         }
 
+        function exitAnyFullscreen() {
+            const d = document;
+            const fsEl = d.fullscreenElement || d.webkitFullscreenElement || d.msFullscreenElement;
+            if (!fsEl) return;
+            const exit = d.exitFullscreen || d.webkitExitFullscreen || d.msExitFullscreen;
+            if (exit) {
+                try { exit.call(d); } catch (err) {}
+            }
+        }
+
         function closeVideoModal() {
             if (!videoModal || !portfolioPlayer) return;
+            exitAnyFullscreen();
             portfolioPlayer.pause();
             portfolioPlayer.removeAttribute('src');
             portfolioPlayer.load();
@@ -874,10 +888,31 @@
             document.body.style.overflow = 'auto';
         }
 
+        function toggleVideoFullscreen() {
+            const el = portfolioPlayer;
+            if (!el) return;
+            const d = document;
+            const fsEl = d.fullscreenElement || d.webkitFullscreenElement || d.msFullscreenElement;
+            if (fsEl) {
+                exitAnyFullscreen();
+                return;
+            }
+            if (el.requestFullscreen) {
+                el.requestFullscreen().catch(() => {});
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            } else if (el.webkitEnterFullscreen) {
+                el.webkitEnterFullscreen();
+            } else if (el.msRequestFullscreen) {
+                el.msRequestFullscreen();
+            }
+        }
+
         window.openModal = openModal;
         window.closeModal = closeModal;
         window.openVideoModal = openVideoModal;
         window.closeVideoModal = closeVideoModal;
+        window.toggleVideoFullscreen = toggleVideoFullscreen;
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
