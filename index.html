@@ -747,6 +747,22 @@
                     </div>
                 </div>
 
+                <!-- Видео 10 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" onclick="openVideoModal('videos/video10.mp4', 'Поздравление с днём рождения, стилизованное под профессиональную деятельность, с именинником в главной роли')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video src="videos/video10.mp4#t=0.5" poster="videos/poster10.jpg" preload="metadata" muted loop playsinline class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="this.play().catch(()=>{})" onmouseleave="this.pause(); this.currentTime=0.5;"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Поздравление с днём рождения, стилизованное под профессиональную деятельность, с именинником в главной роли</h3>
+                        <p class="text-slate-400 text-sm">Именинник в главной роли: сюжет обыгрывает его профессию, а финал — торт с пожеланиями.</p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -835,8 +851,14 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
                 </button>
             </div>
-            <div class="bg-black flex-1 min-h-0 w-full flex items-center justify-center sm:aspect-video sm:flex-none">
+            <div class="relative bg-black flex-1 min-h-0 w-full flex items-center justify-center sm:aspect-video sm:flex-none">
                 <video id="portfolio-modal-player" controls playsinline webkit-playsinline preload="metadata" class="w-full h-full object-contain"></video>
+                <button id="video-unmute-btn" type="button" onclick="unmuteVideo()" aria-label="Включить звук"
+                    class="absolute inset-0 z-10 flex-col items-center justify-center gap-3 bg-black/60 text-white font-bold text-base sm:text-lg px-6 text-center"
+                    style="display: none;">
+                    <svg class="w-14 h-14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5 6 9H3v6h3l5 4V5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+                    <span>Нажмите, чтобы включить звук</span>
+                </button>
             </div>
         </div>
     </div>
@@ -859,13 +881,55 @@
             document.body.style.overflow = 'auto'; 
         }
 
+        function showVideoUnmute() {
+            const btn = document.getElementById('video-unmute-btn');
+            if (btn) btn.style.display = 'flex';
+        }
+
+        function hideVideoUnmute() {
+            const btn = document.getElementById('video-unmute-btn');
+            if (btn) btn.style.display = 'none';
+        }
+
+        function unmuteVideo() {
+            if (!portfolioPlayer) return;
+            portfolioPlayer.muted = false;
+            portfolioPlayer.defaultMuted = false;
+            portfolioPlayer.volume = 1;
+            const p = portfolioPlayer.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+            hideVideoUnmute();
+        }
+
         function openVideoModal(videoSrc, titleText) {
             if (!videoModal || !portfolioPlayer) return;
             videoModalTitle.textContent = titleText || 'Мои работы';
+            // Останавливаем превью-ролики: на iPhone их «немой» звук мешает звуку большого видео
+            document.querySelectorAll('.portfolio-card video').forEach((v) => {
+                try { v.pause(); } catch (err) {}
+            });
+            hideVideoUnmute();
+            // Явно включаем звук (iPhone по умолчанию блокирует звук при автозапуске)
+            portfolioPlayer.muted = false;
+            portfolioPlayer.defaultMuted = false;
+            portfolioPlayer.volume = 1;
+            portfolioPlayer.setAttribute('playsinline', '');
             portfolioPlayer.src = videoSrc;
             videoModal.classList.add('active');
             document.body.style.overflow = 'hidden';
-            portfolioPlayer.play().catch(() => {});
+            const p = portfolioPlayer.play();
+            if (p && typeof p.then === 'function') {
+                p.then(() => {
+                    // Если браузер всё же стартовал без звука — предложим включить вручную
+                    setTimeout(() => {
+                        if (portfolioPlayer && portfolioPlayer.muted) showVideoUnmute();
+                    }, 300);
+                }).catch(() => {
+                    // Автовоспроизведение со звуком запрещено (iPhone / встроенный браузер):
+                    // показываем кнопку, тап по которой запустит видео со звуком
+                    showVideoUnmute();
+                });
+            }
         }
 
         function exitAnyFullscreen() {
@@ -881,6 +945,7 @@
         function closeVideoModal() {
             if (!videoModal || !portfolioPlayer) return;
             exitAnyFullscreen();
+            hideVideoUnmute();
             portfolioPlayer.pause();
             portfolioPlayer.removeAttribute('src');
             portfolioPlayer.load();
@@ -913,6 +978,7 @@
         window.openVideoModal = openVideoModal;
         window.closeVideoModal = closeVideoModal;
         window.toggleVideoFullscreen = toggleVideoFullscreen;
+        window.unmuteVideo = unmuteVideo;
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
