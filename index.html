@@ -597,7 +597,7 @@
 
         </section>
 
-        <!-- Раздел "Мои работы" (#portfolio) на 10 видео по образцу mikerover.github.io/video-portfolio -->
+        <!-- Раздел "Мои работы" (#portfolio) на 11 видео по образцу mikerover.github.io/video-portfolio -->
         <section id="portfolio" class="max-w-6xl mx-auto px-5 pb-24">
             <h2 class="anim-reveal text-3xl md:text-5xl font-bold text-center mb-14">Мои работы</h2>
 
@@ -763,6 +763,22 @@
                     </div>
                 </div>
 
+                <!-- Видео 11 -->
+                <div class="portfolio-card anim-reveal rounded-2xl overflow-hidden cursor-pointer group" style="transition-delay: 80ms;" onclick="openVideoModal('videos/video11.mp4', 'Поздравление в стиле выпуска новостей', 'videos/poster11.jpg')">
+                    <div class="relative aspect-video bg-[#111118] overflow-hidden">
+                        <video poster="videos/poster11.jpg" preload="none" muted loop playsinline data-src="videos/video11.mp4#t=0.5" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" onmouseenter="playPreview(this)" onmouseleave="pausePreview(this)"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition flex items-center justify-center">
+                            <div class="play-badge w-14 h-14 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white shadow-lg">
+                                <svg class="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="text-lg font-bold text-white mb-1">Поздравление в стиле выпуска новостей</h3>
+                        <p class="text-slate-400 text-sm">Ролик-сюрприз в стиле выпуска новостей: ведущая объявляет главную новость дня — поздравление героя.</p>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -886,7 +902,7 @@
         }
 
         // Превью-плитки: источник подставляется только при наведении/касании,
-        // чтобы при открытии страницы 10 роликов не грузили видео и не «съедали» канал
+        // чтобы при открытии страницы ролики не грузили видео и не «съедали» канал
         function playPreview(v) {
             try {
                 if (!v.getAttribute('src') && v.dataset.src) v.setAttribute('src', v.dataset.src);
